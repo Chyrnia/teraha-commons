@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: Teraha Commons Data Models
+  version: 1.0.0
+  description: DTOs autogenerados para el modulo commons
+
+paths: {}
+
+components:
+  schemas:
+
+    # --- BASE ENTITY DTO ---
+    BaseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+
+    # --- PERSONA Y CLIENTE ---
+    PersonDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          required:
+            - name
+            - document
+          properties:
+            name:
+              type: string
+              example: "Juan Pérez"
+            document:
+              type: string
+              example: "1234567-8"
+            address:
+              type: string
+              example: "Av. Principal 123"
+            email:
+              type: string
+              format: email
+              example: "juan.perez@email.com"
+            phone:
+              type: string
+              example: "+595981123456"
+
+    ClientDTO:
+      allOf:
+        - $ref: '#/components/schemas/PersonDTO'
+        - type: object
+          properties:
+            birthDate:
+              type: string
+              format: date
+              example: "1995-05-20"
+
+    SupplierDTO:
+      allOf:
+        - $ref: '#/components/schemas/PersonDTO'
+        - type: object
+          properties:
+            companyName:
+              type: string
+              example: "Distribuidora Central S.A."
+
+    # --- CATEGRIA Y PRODUCTO ---
+    CategoryDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+              example: "Electrónica"
+
+    ProductDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          required:
+            - code
+            - description
+            - stock
+            - price
+            - cost
+            - margin
+          properties:
+            code:
+              type: string
+              example: "PROD-001"
+            description:
+              type: string
+              example: "Teclado Mecánico RGB"
+            stock:
+              type: integer
+              example: 50
+            price:
+              type: number
+              format: double
+              example: 150.00
+            cost:
+              type: number
+              format: double
+              example: 100.00
+            margin:
+              type: number
+              format: double
+              example: 50.00
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/CategoryDTO'
+            suppliers:
+              type: array
+              items:
+                $ref: '#/components/schemas/SupplierDTO'
+
+    # --- FACTURAS BASE Y DETALLES BASE ---
+    InvoiceDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          required:
+            - invoiceNumber
+            - createdAt
+            - transactionDate
+            - total
+          properties:
+            invoiceNumber:
+              type: string
+              example: "001-001-0000123"
+            createdAt:
+              type: string
+              format: date-time
+              example: "2026-09-10T14:30:00Z"
+            transactionDate:
+              type: string
+              format: date-time
+              example: "2026-09-10T14:30:00Z"
+            total:
+              type: number
+              format: double
+              example: 300.00
+
+    InvoiceDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          required:
+            - product
+            - quantity
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductDTO'
+            quantity:
+              type: integer
+              example: 2
+
+    # --- FACTURAS Y DETALLES ESPECIFICOS ---
+    SaleInvoiceDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/InvoiceDetailDTO'
+        - type: object
+          required:
+            - unitPrice
+          properties:
+            unitPrice:
+              type: number
+              format: double
+              example: 150.00
+
+    SaleInvoiceDTO:
+      allOf:
+        - $ref: '#/components/schemas/InvoiceDTO'
+        - type: object
+          required:
+            - thirdParty
+          properties:
+            thirdParty:
+              $ref: '#/components/schemas/ClientDTO'
+            details:
+              type: array
+              items:
+                $ref: '#/components/schemas/SaleInvoiceDetailDTO'
+
+    PurchaseInvoiceDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/InvoiceDetailDTO'
+        - type: object
+          required:
+            - unitCost
+          properties:
+            unitCost:
+              type: number
+              format: double
+              example: 100.00
+
+    PurchaseInvoiceDTO:
+      allOf:
+        - $ref: '#/components/schemas/InvoiceDTO'
+        - type: object
+          required:
+            - thirdParty
+          properties:
+            thirdParty:
+              $ref: '#/components/schemas/SupplierDTO'
+            details:
+              type: array
+              items:
+                $ref: '#/components/schemas/PurchaseInvoiceDetailDTO'
