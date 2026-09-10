@@ -23,6 +23,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.48</version>
@@ -92,6 +98,7 @@
 
 
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.liquibase</groupId>
