@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: Teraha Commons Data Models
-  version: 1.0.0
-  description: DTOs autogenerados para el modulo commons
+  version: 1.1.0
+  description: DTOs para el modulo commons
 
 paths: {}
 
@@ -43,6 +43,9 @@ components:
             phone:
               type: string
               example: "+595981123456"
+            active:
+              type: boolean
+              example: true
 
     ClientDTO:
       allOf:
@@ -59,9 +62,9 @@ components:
         - $ref: '#/components/schemas/PersonDTO'
         - type: object
           properties:
-            companyName:
+            timbrado:
               type: string
-              example: "Distribuidora Central S.A."
+              example: "1100437-1"
 
     # --- CATEGRIA Y PRODUCTO ---
     CategoryDTO:
@@ -108,6 +111,9 @@ components:
               type: number
               format: double
               example: 50.00
+            active:
+              type: boolean
+              example: true
             categories:
               type: array
               items:

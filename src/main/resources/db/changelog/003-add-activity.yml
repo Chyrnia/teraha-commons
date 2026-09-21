@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-active-column-to-soft-deletable-entities
+      author: czyrnia
+      changes:
+        - addColumn:
+            tableName: products
+            columns:
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: suppliers
+            columns:
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: clients
+            columns:
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false

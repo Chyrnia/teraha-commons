@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/001-initial-schema.yaml
   - include:
       file: db/changelog/002-apply-checks.postgresql.sql
+  - include:
+      file: db/changelog/003-add-activity.yml

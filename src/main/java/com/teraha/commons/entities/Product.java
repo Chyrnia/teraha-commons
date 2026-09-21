@@ -36,6 +36,9 @@ public class Product extends BaseEntity {
 	@Column(nullable = false, precision = 5, scale = 2)
 	private BigDecimal margin; 
 
+	@Column(name = "is_active", nullable = false)
+	private boolean active = true;
+
 	@ManyToMany
 	@JoinTable(
 		name = "product_categories",
