@@ -6,7 +6,7 @@
 
 	<groupId>com.teraha</groupId>
 	<artifactId>commons</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 
 	<packaging>jar</packaging>
 
@@ -105,6 +105,22 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.15.0</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.48</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
