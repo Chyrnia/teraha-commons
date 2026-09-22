@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Teraha Commons Data Models
-  version: 1.1.0
+  version: 1.2.0
   description: DTOs para el modulo commons
 
 paths: {}
@@ -216,3 +216,20 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PurchaseInvoiceDetailDTO'
+
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - message
+        - timestamp
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: "Product with id 999999 was not found"
+        timestamp:
+          type: string
+          format: date-time
