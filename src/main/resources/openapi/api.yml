@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Teraha Commons Data Models
-  version: 1.2.0
+  version: 2.0.0
   description: DTOs para el modulo commons
 
 paths: {}
@@ -23,9 +23,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
-          required:
-            - name
-            - document
           properties:
             name:
               type: string
@@ -71,8 +68,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
-          required:
-            - name
           properties:
             name:
               type: string
@@ -82,13 +77,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
-          required:
-            - code
-            - description
-            - stock
-            - price
-            - cost
-            - margin
           properties:
             code:
               type: string
@@ -128,11 +116,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
-          required:
-            - invoiceNumber
-            - createdAt
-            - transactionDate
-            - total
           properties:
             invoiceNumber:
               type: string
@@ -154,9 +137,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
-          required:
-            - product
-            - quantity
           properties:
             product:
               $ref: '#/components/schemas/ProductDTO'
@@ -169,8 +149,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/InvoiceDetailDTO'
         - type: object
-          required:
-            - unitPrice
           properties:
             unitPrice:
               type: number
@@ -181,8 +159,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/InvoiceDTO'
         - type: object
-          required:
-            - thirdParty
           properties:
             thirdParty:
               $ref: '#/components/schemas/ClientDTO'
@@ -195,8 +171,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/InvoiceDetailDTO'
         - type: object
-          required:
-            - unitCost
           properties:
             unitCost:
               type: number
@@ -207,8 +181,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/InvoiceDTO'
         - type: object
-          required:
-            - thirdParty
           properties:
             thirdParty:
               $ref: '#/components/schemas/SupplierDTO'
