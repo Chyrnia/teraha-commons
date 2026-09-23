@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Teraha Commons Data Models
-  version: 2.0.0
+  version: 2.1.0
   description: DTOs para el modulo commons
 
 paths: {}
@@ -205,3 +205,17 @@ components:
         timestamp:
           type: string
           format: date-time
+
+    InventoryUpdate:
+      type: object
+      required: 
+        - stockDelta
+      properties:
+        stockDelta:
+          type: integer
+          example: -3
+        unitCost:
+          type: number
+          format: double
+          example: 100.20
+
