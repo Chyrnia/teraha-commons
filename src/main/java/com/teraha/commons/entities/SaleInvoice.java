@@ -30,10 +30,9 @@ public class SaleInvoice extends Invoice {
 	public SaleInvoice(
 			String invoiceNumber, 
 		   	OffsetDateTime transactionDate,
-			BigDecimal total,
 			Client thirdParty)
 	{
-		super(invoiceNumber, transactionDate, total);
+		super(invoiceNumber, transactionDate);
 		this.thirdParty = thirdParty;
 	}
 

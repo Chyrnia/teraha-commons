@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +22,7 @@ public class PurchaseInvoice extends Invoice {
 	@JoinColumn(name = "supplier_id", nullable = false)
 	private Supplier thirdParty;
 
-	@OneToMany(mappedBy = "invoice")
+	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PurchaseInvoiceDetail> details;
 
 	protected PurchaseInvoice() {}
@@ -32,7 +33,12 @@ public class PurchaseInvoice extends Invoice {
 			BigDecimal total,
 			Supplier thirdParty)
 	{
-		super(invoiceNumber, transactionDate, total);
+		super(invoiceNumber, transactionDate);
 		this.thirdParty = thirdParty;
+	}
+
+	public void addDetail(PurchaseInvoiceDetail detail){
+		details.add(detail);
+		detail.setInvoice(this);
 	}
 }

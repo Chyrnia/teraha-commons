@@ -27,11 +27,9 @@ public class PurchaseInvoiceDetail extends InvoiceDetail {
 	public PurchaseInvoiceDetail(
 			Product product,
 			Integer quantity,
-			PurchaseInvoice invoice,
 			BigDecimal unitCost)
 	{
 		super(product, quantity);
-		this.invoice = invoice;
 		this.unitCost = unitCost;
 	}
 }

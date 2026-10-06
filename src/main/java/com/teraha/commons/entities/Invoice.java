@@ -29,11 +29,9 @@ public abstract class Invoice extends BaseEntity {
 
 	protected Invoice(
 			String invoiceNumber, 
-		   	OffsetDateTime transactionDate,
-			BigDecimal total)
+			OffsetDateTime transactionDate)
 	{
 		this.invoiceNumber = invoiceNumber;
 		this.transactionDate = transactionDate;
-		this.total = total;
 	}
 }
