@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Teraha Commons Data Models
-  version: 2.1.0
+  version: 2.1.1
   description: DTOs para el modulo commons
 
 paths: {}
@@ -138,8 +138,10 @@ components:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
           properties:
-            product:
-              $ref: '#/components/schemas/ProductDTO'
+            productId:
+              type: integer
+              format: int64
+              example: 6
             quantity:
               type: integer
               example: 2
@@ -182,8 +184,10 @@ components:
         - $ref: '#/components/schemas/InvoiceDTO'
         - type: object
           properties:
-            thirdParty:
-              $ref: '#/components/schemas/SupplierDTO'
+            supplierId:
+              type: integer
+              format: int64
+              example: 4
             details:
               type: array
               items:
