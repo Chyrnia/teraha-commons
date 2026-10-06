@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,5 +35,10 @@ public abstract class Invoice extends BaseEntity {
 	{
 		this.invoiceNumber = invoiceNumber;
 		this.transactionDate = transactionDate;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = OffsetDateTime.now();
 	}
 }
