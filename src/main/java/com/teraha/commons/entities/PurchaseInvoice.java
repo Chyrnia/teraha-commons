@@ -3,6 +3,7 @@ package com.teraha.commons.entities;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -23,14 +24,13 @@ public class PurchaseInvoice extends Invoice {
 	private Supplier thirdParty;
 
 	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<PurchaseInvoiceDetail> details;
+	private List<PurchaseInvoiceDetail> details = new ArrayList<>();
 
 	protected PurchaseInvoice() {}
 
 	public PurchaseInvoice(
 			String invoiceNumber, 
 		   	OffsetDateTime transactionDate,
-			BigDecimal total,
 			Supplier thirdParty)
 	{
 		super(invoiceNumber, transactionDate);
