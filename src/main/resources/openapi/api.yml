@@ -162,8 +162,10 @@ components:
         - $ref: '#/components/schemas/InvoiceDTO'
         - type: object
           properties:
-            thirdParty:
-              $ref: '#/components/schemas/ClientDTO'
+            clientId:
+              type: integer
+              format: int64
+              example: 4
             details:
               type: array
               items:

@@ -28,11 +28,9 @@ public class SaleInvoiceDetail extends InvoiceDetail {
 	public SaleInvoiceDetail(
 			Product product,
 			Integer quantity,
-			SaleInvoice invoice,
 			BigDecimal unitPrice)
 	{
 		super(product, quantity);
-		this.invoice = invoice;
 		this.unitPrice = unitPrice;
 	}
 }
