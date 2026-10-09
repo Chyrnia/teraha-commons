@@ -37,6 +37,11 @@ public abstract class Invoice extends BaseEntity {
 		this.transactionDate = transactionDate;
 	}
 
+	protected Invoice(OffsetDateTime transactionDate)
+	{
+		this.transactionDate = transactionDate;
+	}
+
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt = OffsetDateTime.now();
