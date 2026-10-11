@@ -102,14 +102,18 @@ components:
             active:
               type: boolean
               example: true
-            categories:
+            categoryIds:
               type: array
               items:
-                $ref: '#/components/schemas/CategoryDTO'
-            suppliers:
+                type: integer
+                format: int64
+              example: [1, 2]
+            supplierIds:
               type: array
               items:
-                $ref: '#/components/schemas/SupplierDTO'
+                type: integer
+                format: int64
+              example: [1, 2]
 
     # --- FACTURAS BASE Y DETALLES BASE ---
     InvoiceDTO:
