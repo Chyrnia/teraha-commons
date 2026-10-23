@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/003-add-activity.yml
   - include:
       file: db/changelog/004-add-sale-invoice-number-generation.yml
+  - include:
+      file: db/changelog/005-add-users-and-auth-entities.yml

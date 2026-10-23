@@ -1,0 +1,494 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-permissions-table
+      author: czyrnia 
+      changes:
+      - createTable:
+          columns:
+          - column:
+              autoIncrement: true
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: permissions_pkey
+              name: id
+              type: BIGINT
+          - column:
+              constraints:
+                nullable: false
+              name: description
+              type: TEXT
+          - column:
+              constraints:
+                nullable: false
+              name: code
+              type: TEXT
+          tableName: permissions
+  - changeSet:
+      id: create-roles-table
+      author: czyrnia 
+      changes:
+      - createTable:
+          columns:
+          - column:
+              autoIncrement: true
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: roles_pkey
+              name: id
+              type: BIGINT
+          - column:
+              constraints:
+                nullable: false
+              name: name
+              type: TEXT
+          - column:
+              name: description
+              type: TEXT
+          tableName: roles
+  - changeSet:
+      id: create-users-table
+      author: czyrnia 
+      changes:
+      - createTable:
+          columns:
+          - column:
+              autoIncrement: true
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: users_pkey
+              name: id
+              type: BIGINT
+          - column:
+              constraints:
+                nullable: false
+              name: username
+              type: TEXT
+          - column:
+              constraints:
+                nullable: false
+              name: email
+              type: TEXT
+          - column:
+              constraints:
+                nullable: false
+              name: pass_hash
+              type: TEXT
+          - column:
+              constraints:
+                nullable: false
+              name: enabled
+              type: BOOLEAN
+              defaultValueBoolean: true
+          - column:
+              name: last_login
+              type: TIMESTAMP WITH TIME ZONE
+          tableName: users
+  - changeSet:
+      id: make-permissions-code-unique
+      author: czyrnia 
+      changes:
+      - addUniqueConstraint:
+          columnNames: code
+          constraintName: permissions_code_key
+          tableName: permissions
+  - changeSet:
+      id: make-roles-names-unique
+      author: czyrnia 
+      changes:
+      - addUniqueConstraint:
+          columnNames: name
+          constraintName: roles_name_key
+          tableName: roles
+  - changeSet:
+      id: make-users-email-unique
+      author: czyrnia 
+      changes:
+      - addUniqueConstraint:
+          columnNames: email
+          constraintName: users_email_key
+          tableName: users
+  - changeSet:
+      id: make-usernames-unique
+      author: czyrnia 
+      changes:
+      - addUniqueConstraint:
+          columnNames: username
+          constraintName: users_username_key
+          tableName: users
+  - changeSet:
+      id: create-role-permission-association-table
+      author: czyrnia 
+      changes:
+      - createTable:
+          columns:
+          - column:
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: pk_roles_permissions
+              name: role_id
+              type: BIGINT
+          - column:
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: pk_roles_permissions
+              name: permission_id
+              type: BIGINT
+          tableName: roles_permissions
+      - addForeignKeyConstraint:
+          baseColumnNames: permission_id
+          baseTableName: roles_permissions
+          constraintName: roles_permissions_permission_id_fkey
+          deferrable: false
+          initiallyDeferred: false
+          onDelete: NO ACTION
+          onUpdate: NO ACTION
+          referencedColumnNames: id
+          referencedTableName: permissions
+          validate: true
+      - addForeignKeyConstraint:
+          baseColumnNames: role_id
+          baseTableName: roles_permissions
+          constraintName: roles_permissions_role_id_fkey
+          deferrable: false
+          initiallyDeferred: false
+          onDelete: NO ACTION
+          onUpdate: NO ACTION
+          referencedColumnNames: id
+          referencedTableName: roles
+          validate: true
+  - changeSet:
+      id: create-user-role-association-table
+      author: czyrnia 
+      changes:
+      - createTable:
+          columns:
+          - column:
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: pk_users_roles
+              name: user_id
+              type: BIGINT
+          - column:
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: pk_users_roles
+              name: role_id
+              type: BIGINT
+          tableName: users_roles
+      - addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: users_roles
+          constraintName: users_roles_user_id_fkey
+          deferrable: false
+          initiallyDeferred: false
+          onDelete: NO ACTION
+          onUpdate: NO ACTION
+          referencedColumnNames: id
+          referencedTableName: users
+          validate: true
+      - addForeignKeyConstraint:
+          baseColumnNames: role_id
+          baseTableName: users_roles
+          constraintName: users_roles_role_id_fkey
+          deferrable: false
+          initiallyDeferred: false
+          onDelete: NO ACTION
+          onUpdate: NO ACTION
+          referencedColumnNames: id
+          referencedTableName: roles
+          validate: true
+  - changeSet:
+      id: seed-initial-roles
+      author: czyrnia
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "SYSADMIN"
+              - column:
+                  name: description
+                  value: "Administracion completa del sistema."
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "SELLER"
+              - column:
+                  name: description
+                  value: "Gestion comercial: productos, clientes, ventas y compras."
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "MANAGER"
+              - column:
+                  name: description
+                  value: "Incluye todos los permisos de SELLER y permite crear proveedores."
+  - changeSet:
+      id: seed-initial-permissions
+      author: czyrnia
+      changes:
+        # Products
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "products:read"
+              - column:
+                  name: description
+                  value: "Consultar y buscar productos."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "products:create"
+              - column:
+                  name: description
+                  value: "Crear productos."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "products:update"
+              - column:
+                  name: description
+                  value: "Actualizar productos."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "products:partial-update"
+              - column:
+                  name: description
+                  value: "Actualizar parcialmente productos."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "products:deactivate"
+              - column:
+                  name: description
+                  value: "Desactivar productos."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "products:inventory:update"
+              - column:
+                  name: description
+                  value: "Actualizar existencias y costo de productos."
+        # Purchases
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "purchases:read"
+              - column:
+                  name: description
+                  value: "Consultar y buscar facturas de compra."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "purchases:create"
+              - column:
+                  name: description
+                  value: "Crear facturas de compra."
+        # Suppliers
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "suppliers:read"
+              - column:
+                  name: description
+                  value: "Consultar y buscar proveedores."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "suppliers:create"
+              - column:
+                  name: description
+                  value: "Registrar proveedores."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "suppliers:deactivate"
+              - column:
+                  name: description
+                  value: "Desactivar proveedores."
+        # Sales
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "sales:read"
+              - column:
+                  name: description
+                  value: "Consultar y buscar facturas de venta."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "sales:create"
+              - column:
+                  name: description
+                  value: "Crear facturas de venta."
+        # Clients
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "clients:read"
+              - column:
+                  name: description
+                  value: "Consultar y buscar clientes."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "clients:create"
+              - column:
+                  name: description
+                  value: "Registrar clientes."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "clients:update"
+              - column:
+                  name: description
+                  value: "Actualizar clientes."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "clients:deactivate"
+              - column:
+                  name: description
+                  value: "Desactivar clientes."
+        # User administration
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "users:read"
+              - column:
+                  name: description
+                  value: "Consultar usuarios."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "users:create"
+              - column:
+                  name: description
+                  value: "Crear usuarios."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "users:update"
+              - column:
+                  name: description
+                  value: "Actualizar usuarios."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "users:deactivate"
+              - column:
+                  name: description
+                  value: "Desactivar usuarios."
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: code
+                  value: "users:roles:assign"
+              - column:
+                  name: description
+                  value: "Asignar o modificar roles de usuarios."
+  - changeSet:
+      id: assign-initial-role-permissions
+      author: czyrnia
+      changes:
+        - sql:
+            sql: |
+              -- SYSADMIN receives every permission in the initial catalog.
+              INSERT INTO roles_permissions (role_id, permission_id)
+              SELECT r.id, p.id
+              FROM roles r
+              CROSS JOIN permissions p
+              WHERE r.name = 'SYSADMIN';
+
+              -- SELLER receives the permissions required for daily operations.
+              INSERT INTO roles_permissions (role_id, permission_id)
+              SELECT r.id, p.id
+              FROM roles r
+              JOIN permissions p
+                ON p.code IN (
+                  'products:read',
+                  'products:create',
+                  'purchases:read',
+                  'purchases:create',
+                  'suppliers:read',
+                  'sales:read',
+                  'sales:create',
+                  'clients:read',
+                  'clients:create'
+                )
+              WHERE r.name = 'SELLER';
+
+              -- MANAGER receives every SELLER permission, plus supplier creation.
+              INSERT INTO roles_permissions (role_id, permission_id)
+              SELECT r.id, p.id
+              FROM roles r
+              JOIN permissions p
+                ON p.code IN (
+                  'products:read',
+                  'products:create',
+                  'purchases:read',
+                  'purchases:create',
+                  'suppliers:read',
+                  'suppliers:create',
+                  'sales:read',
+                  'sales:create',
+                  'clients:read',
+                  'clients:create'
+                )
+              WHERE r.name = 'MANAGER';

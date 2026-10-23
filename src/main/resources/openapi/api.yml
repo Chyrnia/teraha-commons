@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Teraha Commons Data Models
-  version: 2.1.1
+  version: 2.1.2
   description: DTOs para el modulo commons
 
 paths: {}
@@ -228,4 +228,117 @@ components:
           type: number
           format: double
           example: 100.20
+
+    RoleDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          properties:
+            name:
+              type: string
+              example: "SELLER"
+            description:
+              type: string
+              example: "Employee responsible for sales"
+
+    UserDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          properties:
+            username:
+              type: string
+              example: "czyrnia"
+            email:
+              type: string
+              format: email
+              example: "achyrnia@gmail.com"
+            enabled:
+              type: boolean
+            lastLogin:
+              type: string 
+              format: date-time
+            roles:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleDTO'
+
+    
+    CreateUserRequestDTO:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - roles
+      properties:
+        username:
+          type: string
+          example: "czyrnia"
+        email:
+          type: string
+          format: email
+          example: "achyrnia@gmail.com"
+        password:
+          type: string
+          format: password
+        roles:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            example: "MANAGER"
+
+
+    UpdateUserRequestDTO:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "czyrnia"
+        email:
+          type: string
+          format: email
+          example: "achyrnia@gmail.com"
+        password:
+          type: string
+          format: password
+        roles:
+          type: array
+          items:
+            type: string
+            example: "MANAGER"
+
+    LoginRequestDTO:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "aylen"
+        password:
+          type: string
+          format: password
+
+    LoginResponseDTO:
+      type: object
+      required:
+        - accessToken
+        - tokenType
+        - expiresIn
+      properties:
+        accessToken: 
+          type: string
+          description: JWT access token
+        tokenType:
+          type: string
+          example: "Bearer"
+        expiresIn:
+          type: integer
+          format: int64
+          description: Token lifetime in seconds
+          example: 3600
+  
 
