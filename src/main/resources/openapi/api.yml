@@ -63,7 +63,7 @@ components:
               type: string
               example: "1100437-1"
 
-    # --- CATEGRIA Y PRODUCTO ---
+    # --- CATEGORIA Y PRODUCTO ---
     CategoryDTO:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
@@ -114,6 +114,51 @@ components:
                 type: integer
                 format: int64
               example: [1, 2]
+
+    # --- REPORTES PRODUCTO ---
+    ProductMonthlyReportDTO:
+      type: object
+      required:
+        - productId
+        - code
+        - description
+        - price
+        - totalSold
+        - totalRevenue
+        - topBuyerName
+        - topBuyerQuantity
+      properties:
+        productId:
+          type: integer
+          format: int64
+          example: 12
+        code:
+          type: string
+          example: "PROD-001"
+        description:
+          type: string
+          example: "Teclado Mecánico RGB"
+        price:
+          type: number
+          example: 150.00
+          description: Current product price
+        totalSold:
+          type: integer
+          format: int64
+          example: 42
+          description: Total units sold during the reporting month
+        totalRevenue:
+          type: number
+          example: 6300.00
+          description: Revenue calculated using historical sale detail prices
+        topBuyerName:
+          type: string
+          example: "Juan Pérez"
+        topBuyerQuantity:
+          type: integer
+          format: int64
+          example: 15
+          description: Units purchased by the product's biggest buyer
 
     # --- FACTURAS BASE Y DETALLES BASE ---
     InvoiceDTO:
@@ -199,6 +244,7 @@ components:
               items:
                 $ref: '#/components/schemas/PurchaseInvoiceDetailDTO'
 
+    # --- RESPUESTAS DE ERROR ---
     ErrorResponse:
       type: object
       required:
@@ -216,9 +262,10 @@ components:
           type: string
           format: date-time
 
+    # --- INVENTARIO ---
     InventoryUpdate:
       type: object
-      required: 
+      required:
         - stockDelta
       properties:
         stockDelta:
@@ -229,6 +276,7 @@ components:
           format: double
           example: 100.20
 
+    # --- ROLES Y USUARIOS ---
     RoleDTO:
       allOf:
         - $ref: '#/components/schemas/BaseDTO'
@@ -256,14 +304,14 @@ components:
             enabled:
               type: boolean
             lastLogin:
-              type: string 
+              type: string
               format: date-time
             roles:
               type: array
               items:
                 $ref: '#/components/schemas/RoleDTO'
 
-    
+    # --- SOLICITUDES DE USUARIO ---
     CreateUserRequestDTO:
       type: object
       required:
@@ -288,7 +336,6 @@ components:
           items:
             type: string
             example: "MANAGER"
-
 
     UpdateUserRequestDTO:
       type: object
@@ -329,7 +376,7 @@ components:
         - tokenType
         - expiresIn
       properties:
-        accessToken: 
+        accessToken:
           type: string
           description: JWT access token
         tokenType:
@@ -340,5 +387,3 @@ components:
           format: int64
           description: Token lifetime in seconds
           example: 3600
-  
-
