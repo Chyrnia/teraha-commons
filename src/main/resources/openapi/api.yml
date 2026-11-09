@@ -387,3 +387,61 @@ components:
           format: int64
           description: Token lifetime in seconds
           example: 3600
+
+    # --- REPORTES DE VENTAS ---
+
+    ClientMonthlyReportDTO:
+      type: object
+      required:
+        - clientId
+        - name
+        - document
+        - totalSales
+        - totalAmount
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          example: 4
+        name:
+          type: string
+          example: "Juan Pérez"
+        document:
+          type: string
+          example: "1234567-8"
+        totalSales:
+          type: integer
+          format: int64
+          example: 18
+          description: Number of invoices issued to this client during the month
+        totalAmount:
+          type: number
+          example: 12500000.00
+          description: Total amount invoiced to this client during the month
+
+    MonthlySalesSummaryDTO:
+      type: object
+      required:
+        - totalRevenue
+        - totalSales
+        - averageTicket
+        - clientsAttended
+      properties:
+        totalRevenue:
+          type: number
+          example: 85400000.00
+          description: Total revenue generated during the month
+        totalSales:
+          type: integer
+          format: int64
+          example: 142
+          description: Total number of invoices issued during the month
+        averageTicket:
+          type: number
+          example: 601408.45
+          description: Average invoice amount during the month
+        clientsAttended:
+          type: integer
+          format: int64
+          example: 38
+          description: Number of distinct clients who made purchases during the month
