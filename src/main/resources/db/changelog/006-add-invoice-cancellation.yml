@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-cancelled-to-invoices
+      author: czyrnia
+      changes:
+        - addColumn:
+            tableName: sale_invoices
+            columns:
+              - column:
+                  name: cancelled
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+        - addColumn:
+            tableName: purchase_invoices
+            columns:
+              - column:
+                  name: cancelled
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

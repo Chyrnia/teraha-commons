@@ -166,6 +166,10 @@ components:
         - $ref: '#/components/schemas/BaseDTO'
         - type: object
           properties:
+            cancelled:
+              type: boolean
+              example: false
+              description: "Wheter the invoice was cancelled"
             invoiceNumber:
               type: string
               example: "001-001-0000123"

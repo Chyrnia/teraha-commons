@@ -27,6 +27,9 @@ public abstract class Invoice extends BaseEntity {
 	@Column(nullable = false, precision = 17, scale = 2)
 	private BigDecimal total;
 
+	@Column(name = "cancelled", nullable = false)
+	private boolean cancelled;
+
 	protected Invoice () {}
 
 	protected Invoice(
