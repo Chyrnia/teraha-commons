@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/005-add-users-and-auth-entities.yml
   - include:
       file: db/changelog/006-add-invoice-cancellation.yml
+  - include:
+      file: db/changelog/007-add-application-settings.yml

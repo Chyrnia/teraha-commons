@@ -1,0 +1,181 @@
+
+databaseChangeLog:
+  # --- GLOBAL EMAIL SETTINGS ---
+  - changeSet:
+      id: create-email-settings
+      author: czyrnia
+      changes:
+        - createTable:
+            tableName: email_settings
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: email_settings_pkey
+                    nullable: false
+              - column:
+                  name: sender_email
+                  type: VARCHAR(320)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: frequency
+                  type: VARCHAR(40)
+                  defaultValue: DAILY_AT_CLOSE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: default_message
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: include_low_stock
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: include_sales_metrics
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+        - sql:
+            sql: |
+              ALTER TABLE email_settings
+              ADD CONSTRAINT email_settings_singleton_check
+              CHECK (id = 1);
+
+        - insert:
+            tableName: email_settings
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: sender_email
+                  value: "notificaciones@teraha.com"
+              - column:
+                  name: frequency
+                  value: "DAILY_AT_CLOSE"
+              - column:
+                  name: default_message
+                  value: "Hola, adjuntamos el reporte automático de operaciones."
+              - column:
+                  name: include_low_stock
+                  valueBoolean: true
+              - column:
+                  name: include_sales_metrics
+                  valueBoolean: true
+
+  # --- EMAIL RECIPIENTS ---
+  - changeSet:
+      id: create-email-recipients
+      author: czyrnia
+      changes:
+        - createTable:
+            tableName: email_recipients
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: email_recipients_pkey
+                    nullable: false
+              - column:
+                  name: email_settings_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(320)
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: email_recipients
+            baseColumnNames: email_settings_id
+            referencedTableName: email_settings
+            referencedColumnNames: id
+            constraintName: email_recipients_settings_fkey
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: email_recipients
+            columnNames: email_settings_id, email
+            constraintName: email_recipients_settings_email_key
+
+  # --- USER APPEARANCE SETTINGS ---
+  - changeSet:
+      id: create-user-appearance-settings
+      author: czyrnia
+      changes:
+        - createTable:
+            tableName: user_appearance_settings
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_appearance_settings_pkey
+                    nullable: false
+              - column:
+                  name: accent_color
+                  type: VARCHAR(40)
+                  defaultValue: EMERALD_NEON
+                  constraints:
+                    nullable: false
+              - column:
+                  name: table_density
+                  type: VARCHAR(40)
+                  defaultValue: NORMAL
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sidebar_behavior
+                  type: VARCHAR(40)
+                  defaultValue: EXPANDED
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: user_appearance_settings
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: user_appearance_settings_user_fkey
+            onDelete: CASCADE
+
+        - sql:
+            sql: |
+              ALTER TABLE user_appearance_settings
+              ADD CONSTRAINT appearance_accent_color_check
+              CHECK (accent_color IN (
+                'EMERALD_NEON',
+                'MINT_GREEN',
+                'LIME_GREEN'
+              ));
+
+              ALTER TABLE user_appearance_settings
+              ADD CONSTRAINT appearance_table_density_check
+              CHECK (table_density IN (
+                'COMPACT',
+                'NORMAL',
+                'COMFORTABLE'
+              ));
+
+              ALTER TABLE user_appearance_settings
+              ADD CONSTRAINT appearance_sidebar_behavior_check
+              CHECK (sidebar_behavior IN (
+                'EXPANDED',
+                'COLLAPSED'
+              ));
+

@@ -464,3 +464,84 @@ components:
           format: int64
           example: 38
           description: Number of distinct clients who made purchases during the month
+
+
+    # --- EMAIL AUTOMATION SETTINGS ---
+
+    EmailSettingsDTO:
+      type: object
+      required:
+        - senderEmail
+        - frequency
+        - recipients
+        - defaultMessage
+        - includeLowStock
+        - includeSalesMetrics
+      properties:
+        senderEmail:
+          type: string
+          format: email
+          example: "notificaciones@teraha.com"
+        frequency:
+          type: string
+          enum:
+            - DAILY_AT_CLOSE
+            - WEEKLY
+            - MONTHLY
+          example: DAILY_AT_CLOSE
+        recipients:
+          type: array
+          items:
+            type: string
+            format: email
+          example:
+            - "admin@teraha.com"
+            - "gerencia@teraha.com"
+        defaultMessage:
+          type: string
+          example: "Hola, adjuntamos el reporte automático de operaciones."
+        includeLowStock:
+          type: boolean
+          example: true
+        includeSalesMetrics:
+          type: boolean
+          example: true
+
+    UpdateEmailSettingsDTO:
+      allOf:
+        - $ref: '#/components/schemas/EmailSettingsDTO'
+
+    # --- USER APPEARANCE SETTINGS ---
+
+    AppearanceSettingsDTO:
+      type: object
+      required:
+        - accentColor
+        - tableDensity
+        - sidebarBehavior
+      properties:
+        accentColor:
+          type: string
+          enum:
+            - EMERALD_NEON
+            - MINT_GREEN
+            - LIME_GREEN
+          example: LIME_GREEN
+        tableDensity:
+          type: string
+          enum:
+            - COMPACT
+            - NORMAL
+            - COMFORTABLE
+          example: NORMAL
+        sidebarBehavior:
+          type: string
+          enum:
+            - EXPANDED
+            - COLLAPSED
+          example: EXPANDED
+
+    UpdateAppearanceSettingsDTO:
+      allOf:
+        - $ref: '#/components/schemas/AppearanceSettingsDTO'
+
